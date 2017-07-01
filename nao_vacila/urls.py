@@ -16,9 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-]
+# urlpatterns = [
+#     url(r'^admin/', admin.site.urls),
+# ]
 
 urlpatterns = [
     url(r'^', include('ocorrencia.urls')),
