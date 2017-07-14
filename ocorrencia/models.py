@@ -19,7 +19,7 @@ class Ocorrencia(Base):
     longitude = Column(Float, nullable=True)
     descricao = Column(String, nullable=True)
     id_tipo = Column(String, nullable=True)
-    endereco_rua = Column(String, nullable=True)
+    endereco = Column(String, nullable=True)
 
     def __init__(self, row):
         if 'data' in row:
@@ -38,5 +38,5 @@ class Ocorrencia(Base):
             self.descricao = row['descricao']
         if 'id_tipo' in row:
             self.id_tipo = row['id_tipo']
-        if 'endereco_rua' in row:
-            self.endereco_rua = row['endereco_rua']
+        if 'endereco' in row:
+            self.endereco = row['endereco']
