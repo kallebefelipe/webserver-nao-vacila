@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from ocorrencia.load import LoadToPostgres
+from tipo_ocorrencia.load import LoadToPostgres
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def ocorrencia(request):
+def tipo_ocorrencia(request):
     """
     List all snippets, or create a new snippet.
     """

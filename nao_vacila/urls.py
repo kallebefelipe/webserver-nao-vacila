@@ -22,4 +22,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include('ocorrencia.urls')),
+    url(r'^', include('tipo_ocorrencia.urls')),
 ]

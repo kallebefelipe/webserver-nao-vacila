@@ -4,10 +4,7 @@ from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Float
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
+from nao_vacila.base import Base
 
 class Ocorrencia(Base):
 

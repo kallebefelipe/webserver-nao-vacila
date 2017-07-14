@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .models import Ocorrencia
-from tipo_ocorrencia.models import TipoOcorrencia
+from .models import TipoOcorrencia
 from .models import Base
 from decouple import config
 from sqlalchemy import create_engine
@@ -38,7 +37,7 @@ class LoadToPostgres(PostgresConnection):
         self.elements = []
 
     def rows_to_models(self):
-        elemento = Ocorrencia(self.row)
+        elemento = TipoOcorrencia(self.row)
         self.elements.append(elemento)
 
     def save_models(self):
@@ -64,15 +63,10 @@ class LoadToPostgres(PostgresConnection):
 
     def get_all(self):
         session = self.create_connection()
-
-        result = session.query(Ocorrencia).all()
+        result = session.query(TipoOcorrencia).all()
         data = []
         for each in result:
             linha = each.__dict__
-            if 'id_tipo' in linha:
-                tipo_ocorrencia = session.query(TipoOcorrencia).all()
-                if tipo_ocorrencia:
-                    linha['tipo_ocorrencia'] = tipo_ocorrencia[0].__dict__
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         return data
