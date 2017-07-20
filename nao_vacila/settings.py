@@ -122,3 +122,5 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+
+SESSION_COOKIE_HTTPONLY = True
