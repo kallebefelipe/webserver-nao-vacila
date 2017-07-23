@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .models import Ocorrencia
-from tipo_ocorrencia.models import TipoOcorrencia
+from regioes_perigosas.models import RegiaoPergigosa
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +36,7 @@ class LoadToPostgres(PostgresConnection):
         self.elements = []
 
     def rows_to_models(self):
-        elemento = Ocorrencia(self.row)
+        elemento = RegiaoPergigosa(self.row)
         self.elements.append(elemento)
 
     def save_models(self):
@@ -64,14 +63,14 @@ class LoadToPostgres(PostgresConnection):
     def get_all(self):
         session = self.create_connection()
 
-        result = session.query(Ocorrencia).all()
+        result = session.query(RegiaoPergigosa).all()
         data = []
         for each in result:
             linha = each.__dict__
-            if 'id_tipo' in linha:
-                tipo_ocorrencia = session.query(TipoOcorrencia).all()
-                if tipo_ocorrencia:
-                    linha['tipo_ocorrencia'] = tipo_ocorrencia[0].__dict__
+            if 'latitude' in linha:
+                regiao_perigosa = session.query(RegiaoPergigosa).all()
+                if regiao_perigosa:
+                    linha['regiao_perigosa'] = regiao_perigosa[0].__dict__
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         return data
