@@ -20,6 +20,7 @@ class Ocorrencia(Base):
     descricao = Column(String, nullable=True)
     id_tipo = Column(String, nullable=True)
     endereco = Column(String, nullable=True)
+    bairro = Column(String, nullable=True)
 
     def __init__(self, row):
         if 'data' in row:
@@ -40,3 +41,5 @@ class Ocorrencia(Base):
             self.id_tipo = row['id_tipo']
         if 'endereco' in row:
             self.endereco = row['endereco']
+        if 'bairro' in row:
+            self.bairro = row['bairro']
