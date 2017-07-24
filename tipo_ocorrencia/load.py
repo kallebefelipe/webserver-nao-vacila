@@ -56,6 +56,7 @@ class LoadToPostgres(PostgresConnection):
             raise Exception('Elemento nao salvo: %s' % el)
         finally:
             session.close()
+        session.close()
 
     def add(self):
         self.rows_to_models()
@@ -69,4 +70,5 @@ class LoadToPostgres(PostgresConnection):
             linha = each.__dict__
             linha.pop('_sa_instance_state', None)
             data.append(linha)
+        session.close()
         return data

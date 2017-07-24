@@ -56,6 +56,7 @@ class LoadToPostgres(PostgresConnection):
             raise Exception('Elemento nao salvo: %s' % el)
         finally:
             session.close()
+        session.close()
 
     def add(self):
         self.rows_to_models()
