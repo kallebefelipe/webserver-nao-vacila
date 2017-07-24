@@ -5,6 +5,7 @@ from tipo_ocorrencia.models import TipoOcorrencia
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import os
 
 
 class PostgresConnection(object):
@@ -57,6 +58,7 @@ class LoadToPostgres(PostgresConnection):
         finally:
             session.close()
         session.close()
+        os.system("some_command with args")
 
     def add(self):
         self.rows_to_models()
@@ -75,4 +77,5 @@ class LoadToPostgres(PostgresConnection):
                     linha['tipo_ocorrencia'] = tipo_ocorrencia[0].__dict__
             linha.pop('_sa_instance_state', None)
             data.append(linha)
+        os.system("heroku pg:killall")
         return data

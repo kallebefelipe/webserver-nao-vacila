@@ -5,6 +5,7 @@ from .models import Base
 from decouple import config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import os
 
 
 class PostgresConnection(object):
@@ -57,6 +58,7 @@ class LoadToPostgres(PostgresConnection):
         finally:
             session.close()
         session.close()
+        os.system("some_command with args")
 
     def add(self):
         self.rows_to_models()
@@ -71,4 +73,5 @@ class LoadToPostgres(PostgresConnection):
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         session.close()
+        os.system("some_command with args")
         return data
