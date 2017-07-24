@@ -6,7 +6,7 @@ from sqlalchemy import Float
 from nao_vacila.base import Base
 
 
-class RegiaoPergigosa(Base):
+class RegiaoPerigosa(Base):
 
     __tablename__ = 'regiao_perigosa'
 

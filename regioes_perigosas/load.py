@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from regioes_perigosas.models import RegiaoPergigosa
+from regioes_perigosas.models import RegiaoPerigosa
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -37,7 +37,7 @@ class LoadToPostgres(PostgresConnection):
         self.elements = []
 
     def rows_to_models(self):
-        elemento = RegiaoPergigosa(self.row)
+        elemento = RegiaoPerigosa(self.row)
         self.elements.append(elemento)
 
     def save_models(self):
@@ -66,14 +66,10 @@ class LoadToPostgres(PostgresConnection):
     def get_all(self):
         session = self.create_connection()
 
-        result = session.query(RegiaoPergigosa).all()
+        result = session.query(RegiaoPerigosa).all()
         data = []
         for each in result:
             linha = each.__dict__
-            if 'latitude' in linha:
-                regiao_perigosa = session.query(RegiaoPergigosa).all()
-                if regiao_perigosa:
-                    linha['regiao_perigosa'] = regiao_perigosa[0].__dict__
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         session.close()
