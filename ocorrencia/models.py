@@ -5,6 +5,8 @@ from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import Float
 from nao_vacila.base import Base
+import unicodedata
+
 
 class Ocorrencia(Base):
 
@@ -21,6 +23,13 @@ class Ocorrencia(Base):
     id_tipo = Column(String, nullable=True)
     endereco = Column(String, nullable=True)
     bairro = Column(String, nullable=True)
+
+    def normalize_ascii(self, value):
+        return unicodedata.normalize('NFKD', value) \
+            .encode('ascii', 'ignore')
+
+    def normalize_string(self, value):
+        return str(self.normalize_ascii(value))[2:-1].strip()
 
     def __init__(self, row):
         if 'data' in row:
@@ -42,4 +51,4 @@ class Ocorrencia(Base):
         if 'endereco' in row:
             self.endereco = row['endereco']
         if 'bairro' in row:
-            self.bairro = row['bairro']
+            self.bairro = self.normalize_string(str(row['bairro'])).lower()
