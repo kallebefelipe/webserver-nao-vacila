@@ -63,8 +63,8 @@ class LoadToPostgres(PostgresConnection):
         session = self.create_connection()
         rotas = requests.get("https://maps.googleapis.com/maps/api/directions/json?origin="+latitude_origem+","+longitude_origem+"&destination="+latitude_destino+","+longitude_destino+"&alternatives=true")
         regioes_perigosas = session.query(RegiaoPerigosa).all()
-        rotas_dict = rotas.json()['routes']
-        for rota in rotas_dict:
+        rotas_dict = rotas.json()
+        for rota in rotas_dict['routes']:
             contagem_lugar_perigoso = 0
             for caminho in rota['legs'][0]['steps']:
                 start = caminho['start_location'] # lat e lng
