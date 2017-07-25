@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from .models import Ocorrencia
-from tipo_ocorrencia.models import TipoOcorrencia
-from .models import Base
+from regioes_perigosas.models import RegiaoPerigosa
+from nao_vacila.base import Base
+from math import sin, cos, sqrt, atan2, radians
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import requests
 
 
 class PostgresConnection(object):
 
-    # postgresql_database_url = config('POSTGRESQL_DATABASE_URL')
     postgresql_database_url = 'postgres://wjrcqlhxqdotyk:b94941094d4ecbac5b9beae6901a886a28bcdccebf5bb60ed8214d04bfb657fa@ec2-107-20-186-238.compute-1.amazonaws.com:5432/d3fkknhsaktvl8'
 
     def __init__(self):
@@ -31,47 +31,45 @@ class LoadToPostgres(PostgresConnection):
 
     """docstring for LoadToPostgres"""
 
-    def __init__(self, row=None):
-        super(LoadToPostgres, self).__init__()
-        self.row = row
-        self.elements = []
+    def distancia(self, lat1, lon1, lat2, lon2):
+        R = 6373.0
 
-    def rows_to_models(self):
-        elemento = Ocorrencia(self.row)
-        self.elements.append(elemento)
+        lat1 = radians(lat1)
+        lon1 = radians(lon1)
+        lat2 = radians(lat2)
+        lon2 = radians(lon2)
 
-    def save_models(self):
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
 
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        distance = R * c
+
+        return distance
+
+    def lugar_perigoso(self, regioes_perigosas, ponto):
+        for each in regioes_perigosas:
+            data = each.__dict__
+            dist = self.distancia(data['latitude'], data['longitude'],
+                                  ponto['lat'], ponto['lng'])
+            if dist < 0.5:
+                return True
+        return False
+
+    def get(self, latitude_origem, longitude_origem, latitude_destino,
+            longitude_destino):
         session = self.create_connection()
-        for el in self.elements:
-            try:
-                session.add(el)
-            except:
-                session.rollback()
-                raise Exception('Elemento nao salvo: %s' % el)
-        try:
-            session.commit()
-        except:
-            session.rollback()
-            raise Exception('Elemento nao salvo: %s' % el)
-        finally:
-            session.close()
-
-    def add(self):
-        self.rows_to_models()
-        self.save_models()
-
-    def get_all(self):
-        session = self.create_connection()
-
-        result = session.query(Ocorrencia).all()
-        data = []
-        for each in result:
-            linha = each.__dict__
-            if 'id_tipo' in linha:
-                tipo_ocorrencia = session.query(TipoOcorrencia).all()
-                if tipo_ocorrencia:
-                    linha['tipo_ocorrencia'] = tipo_ocorrencia[0].__dict__
-            linha.pop('_sa_instance_state', None)
-            data.append(linha)
-        return data
+        rotas = requests.get("https://maps.googleapis.com/maps/api/directions/json?origin="+latitude_origem+","+longitude_origem+"&destination="+latitude_destino+","+longitude_destino+"&alternatives=true")
+        regioes_perigosas = session.query(RegiaoPerigosa).all()
+        rotas_dict = rotas.json()['routes']
+        for rota in rotas_dict:
+            contagem_lugar_perigoso = 0
+            for caminho in rota['legs'][0]['steps']:
+                start = caminho['start_location'] # lat e lng
+                end = caminho['end_location']
+                if self.lugar_perigoso(regioes_perigosas, start) or self.lugar_perigoso(regioes_perigosas, end):
+                    contagem_lugar_perigoso += 1
+            rota['regioes_perigosas'] = contagem_lugar_perigoso
+        return rotas_dict

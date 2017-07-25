@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^', include('ocorrencia.urls')),
     url(r'^', include('tipo_ocorrencia.urls')),
     url(r'^', include('regioes_perigosas.urls')),
+    url(r'^', include('gerar_rota.urls')),
 ]

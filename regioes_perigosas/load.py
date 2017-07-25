@@ -9,7 +9,6 @@ import os
 
 class PostgresConnection(object):
 
-    # postgresql_database_url = config('POSTGRESQL_DATABASE_URL')
     postgresql_database_url = 'postgres://wjrcqlhxqdotyk:b94941094d4ecbac5b9beae6901a886a28bcdccebf5bb60ed8214d04bfb657fa@ec2-107-20-186-238.compute-1.amazonaws.com:5432/d3fkknhsaktvl8'
 
     def __init__(self):
@@ -57,7 +56,6 @@ class LoadToPostgres(PostgresConnection):
         finally:
             session.close()
         session.close()
-        os.system("some_command with args")
 
     def add(self):
         self.rows_to_models()
@@ -73,5 +71,4 @@ class LoadToPostgres(PostgresConnection):
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         session.close()
-        os.system("some_command with args")
         return data
