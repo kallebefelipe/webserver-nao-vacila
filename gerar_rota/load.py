@@ -72,4 +72,7 @@ class LoadToPostgres(PostgresConnection):
                 if self.lugar_perigoso(regioes_perigosas, start) or self.lugar_perigoso(regioes_perigosas, end):
                     contagem_lugar_perigoso += 1
             rota['regioes_perigosas'] = contagem_lugar_perigoso
+        rotas_dict['request'] = {'origin': {'lat': float(latitude_origem), 'lng': float(longitude_origem)},
+                                 'destination': {'lat': float(latitude_destino), 'lng': float(longitude_destino)}}
+        rotas_dict['request']['travelModel'] = 'DRIVING'
         return rotas_dict
