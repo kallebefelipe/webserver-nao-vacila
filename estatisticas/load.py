@@ -37,6 +37,8 @@ class LoadToPostgres(PostgresConnection):
         distribuicao_bairro = session.query(Ocorrencia.bairro, count2).\
             group_by(Ocorrencia.bairro).all()
         distribuicao = []
-        for bairo, qt   in distribuicao_bairro:
-            distribuicao.append({bairo: qt})
+        for bairro, qt in distribuicao_bairro:
+            if bairro is not None:
+                if 'rua' not in bairro and 'avenida' not in bairro:
+                    distribuicao.append({'bairro': bairro, 'quantidade': qt})
         return distribuicao
