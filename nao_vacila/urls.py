@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^', include('gerar_rota.urls')),
     url(r'^', include('calcular_periculosidade.urls')),
     url(r'^', include('estatisticas.urls')),
+    url(r'^', include('usuario.urls')),
 ]
