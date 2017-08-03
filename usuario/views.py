@@ -19,8 +19,8 @@ def usuario(request):
     elif request.method == 'POST':
         try:
             load = LoadToPostgres(request.data)
-            load.add()
-            return Response(status=status.HTTP_201_CREATED)
+            data = load.add()
+            return Response(data)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     # elif request.method == 'DELETE':
