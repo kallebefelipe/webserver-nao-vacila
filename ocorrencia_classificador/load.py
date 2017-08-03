@@ -60,7 +60,7 @@ class LoadToPostgres(PostgresConnection):
 
     def get_coordenadas(self):
         if 'endereco' in self.row:
-            response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address="+endereco)
+            response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?address="+self.row['endereco'])
         if response:
             for each in response.json()['results']:
                 if 'PE' in each['formatted_address']:
@@ -70,9 +70,11 @@ class LoadToPostgres(PostgresConnection):
                     return latitude, longitude
 
     def add(self):
+        result = []
         session = self.create_connection()
-        result = session.query(Ocorrencia).\
-            filter(and_(Ocorrencia.data==self.row['data'], Ocorrencia.hora==self.row['hora'])).all()
+        if 'data' in self.row and 'hora' in self.row:
+            result = session.query(Ocorrencia).\
+                filter(and_(Ocorrencia.data==self.row['data'], Ocorrencia.hora==self.row['hora'])).all()
 
         if len(result) == 0:
             latitude, longitude =  self.get_coordenadas()
