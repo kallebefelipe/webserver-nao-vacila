@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^', include('calcular_periculosidade.urls')),
     url(r'^', include('estatisticas.urls')),
     url(r'^', include('usuario.urls')),
+    url(r'^', include('ocorrencia_classificador.urls')),
 ]
