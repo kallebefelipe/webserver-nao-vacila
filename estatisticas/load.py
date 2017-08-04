@@ -98,7 +98,7 @@ class LoadToPostgres(PostgresConnection):
                         else:
                             dict_distri_ano[ano] += 1
         for each in dict_distri_ano.keys():
-            distribuicao_ano.append({each: dict_distri_ano[each]})
+            distribuicao_ano.append({'ano': each, 'quantidade': dict_distri_ano[each]})
 
         estatisticas['distribuicao_ano'] = distribuicao_ano
 
