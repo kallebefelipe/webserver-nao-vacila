@@ -40,7 +40,7 @@ class LoadToPostgres(PostgresConnection):
         distribuicao_bairro = []
         for bairro, qt in distribuicao:
             if bairro is not None:
-                if 'rua' not in bairro and 'avenida' not in bairro:
+                if 'rua' not in bairro and 'avenida' not in bairro and bairro != '?':
                     distribuicao_bairro.append({'bairro': bairro, 'quantidade': qt})
         estatisticas['distribuicao_bairro'] = distribuicao_bairro
 
