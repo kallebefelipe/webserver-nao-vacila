@@ -18,6 +18,7 @@ class Usuario(Base):
     id_fb = Column(String, nullable=True)
     id_google = Column(String, nullable=True)
     url_foto = Column(String, nullable=True)
+    token = Column(String, nullable=True)
 
     def __init__(self, row):
         if 'nome' in row:
@@ -34,3 +35,5 @@ class Usuario(Base):
             self.id_google = row['id_google']
         if 'url_foto' in row:
             self.url_foto = row['url_foto']
+        if 'token' in row:
+            self.token = row['token']
