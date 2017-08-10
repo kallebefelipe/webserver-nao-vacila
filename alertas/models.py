@@ -7,9 +7,9 @@ from sqlalchemy import Float
 from nao_vacila.base import Base
 
 
-class Usuario(Base):
+class Alerta(Base):
 
-    __tablename__ = 'usuario'
+    __tablename__ = 'alerta'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     id_usuario = Column(String, nullable=True)

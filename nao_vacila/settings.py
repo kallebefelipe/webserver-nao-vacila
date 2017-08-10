@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'ocorrencia.apps.OcorrenciaConfig',
-    'corsheaders'
+    'corsheaders',
+    "push_notifications"
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,13 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 SESSION_COOKIE_HTTPONLY = True
+
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+        "FCM_API_KEY": "[your api key]",
+        "GCM_API_KEY": "[your api key]",
+        "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
+        "APNS_TOPIC": "com.example.push_test",
+        "WNS_PACKAGE_SECURITY_ID": "[your package security id, e.g: 'ms-app://e-3-4-6234...']",
+        "WNS_SECRET_KEY": "[your app secret key, e.g.: 'KDiejnLKDUWodsjmewuSZkk']",
+}
