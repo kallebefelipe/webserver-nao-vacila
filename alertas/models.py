@@ -16,7 +16,7 @@ class Alerta(Base):
     token = Column(String, nullable=True)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    raio = Column(String, nullable=True)
+    raio = Column(Integer, nullable=True)
 
     def __init__(self, row):
         if 'id_usuario' in row:
@@ -29,3 +29,5 @@ class Alerta(Base):
             self.longitude = row['longitude']
         if 'token' in row:
             self.token = row['token']
+        if 'raio' in row:
+            self.raio = int(row['raio'])

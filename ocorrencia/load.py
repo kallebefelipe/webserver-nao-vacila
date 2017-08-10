@@ -2,6 +2,10 @@
 
 from .models import Ocorrencia
 from tipo_ocorrencia.models import TipoOcorrencia
+from push_notifications.models import GCMDevice
+from math import sin, cos, sqrt, atan2, radians
+from alertas.models import Alerta
+# from alertas.models import TipoOcorrencia
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -57,7 +61,47 @@ class LoadToPostgres(PostgresConnection):
             session.close()
         session.close()
 
+    def enviar_mensagem(self, alerta):
+        fcm_device = \
+            GCMDevice.objects.create(registration_id="token",
+                                     cloud_message_type="FCM",
+                                     user=alerta['token'])
+        fcm_device.send_message(self.row)
+
+    def distancia(self, lat1, lon1, lat2, lon2):
+        R = 6373.0
+
+        lat1 = radians(lat1)
+        lon1 = radians(lon1)
+        lat2 = radians(lat2)
+        lon2 = radians(lon2)
+
+        dlon = lon2 - lon1
+        dlat = lat2 - lat1
+
+        a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+        distance = R * c
+
+        return distance
+
+    def verificar_raio(self, alerta):
+        if self.distancia(self.row['latitude'], self.row['longitude'],
+                          alerta['latitude'], alerta['longitude']) < \
+            alerta['raio']:
+            self.enviar_mensagem(alerta)
+
+    def verificar_alerta(self):
+        session = self.create_connection()
+        result = session.query(Alerta).all()
+
+        for each in result:
+            alerta = each.__dict__
+            self.verificar_raio(alerta)
+
     def add(self):
+        self.verificar_alertas()
         self.rows_to_models()
         self.save_models()
 
