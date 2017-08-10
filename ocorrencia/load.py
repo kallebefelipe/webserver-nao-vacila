@@ -65,8 +65,15 @@ class LoadToPostgres(PostgresConnection):
         session = self.create_connection()
 
         result = session.query(Ocorrencia).all()
-        data = []
+
+        ocorrencias = []
+
         for each in result:
+            linha = each.__dict__
+            if '2017' in str(linha['data']):
+                ocorrencias.append(each)
+        data = []
+        for each in ocorrencias:
             linha = each.__dict__
             if 'id_tipo' in linha:
                 tipo_ocorrencia = session.query(TipoOcorrencia).all()
