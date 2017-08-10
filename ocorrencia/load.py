@@ -101,7 +101,10 @@ class LoadToPostgres(PostgresConnection):
             self.verificar_raio(alerta)
 
     def add(self):
-        self.verificar_alertas()
+        try:
+            self.verificar_alertas()
+        except:
+            pass
         self.rows_to_models()
         self.save_models()
 
