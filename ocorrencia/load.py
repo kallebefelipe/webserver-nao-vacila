@@ -129,3 +129,19 @@ class LoadToPostgres(PostgresConnection):
             linha.pop('_sa_instance_state', None)
             data.append(linha)
         return data
+
+    def get_by_user(self, id_usuario):
+        session = self.create_connection()
+
+        result = session.query(Ocorrencia).filter(Ocorrencia.id_usuario==id_usuario).all()
+
+        data = []
+        for each in result:
+            linha = each.__dict__
+            if 'id_tipo' in linha:
+                tipo_ocorrencia = session.query(TipoOcorrencia).all()
+                if tipo_ocorrencia:
+                    linha['tipo_ocorrencia'] = tipo_ocorrencia[0].__dict__
+            linha.pop('_sa_instance_state', None)
+            data.append(linha)
+        return data

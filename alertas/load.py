@@ -4,6 +4,7 @@ from .models import Alerta
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from push_notifications.models import GCMDevice
 
 
 class PostgresConnection(object):
@@ -64,6 +65,18 @@ class LoadToPostgres(PostgresConnection):
         session = self.create_connection()
 
         result = session.query(Alerta).all()
+        data = []
+        for each in result:
+            linha = each.__dict__
+            linha.pop('_sa_instance_state', None)
+            data.append(linha)
+        return data
+
+    def get_by_user(self, id_usuario):
+        session = self.create_connection()
+
+        result = session.query(Alerta).filter(Alerta.id_usuario==id_usuario).all()
+
         data = []
         for each in result:
             linha = each.__dict__

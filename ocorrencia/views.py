@@ -12,6 +12,15 @@ def ocorrencia(request):
     List all snippets, or create a new snippet.
     """
     if request.method == 'GET':
+        try:
+            import ipdb; ipdb.set_trace()
+            id_usuario = request.GET['id_usuario']
+            load = LoadToPostgres()
+            data = load.get_by_user(id_usuario)
+            return Response(data)
+        except:
+            pass
+
         load = LoadToPostgres()
         data = load.get_all()
         return Response(data)
