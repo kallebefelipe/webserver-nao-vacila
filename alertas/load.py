@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .models import Alertas
+from .models import Alerta
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -35,7 +35,7 @@ class LoadToPostgres(PostgresConnection):
         self.elements = []
 
     def rows_to_models(self):
-        elemento = Alertas(self.row)
+        elemento = Alerta(self.row)
         self.elements.append(elemento)
 
     def save_models(self):
@@ -63,7 +63,7 @@ class LoadToPostgres(PostgresConnection):
     def get_all(self):
         session = self.create_connection()
 
-        result = session.query(Alertas).all()
+        result = session.query(Alerta).all()
         data = []
         for each in result:
             linha = each.__dict__

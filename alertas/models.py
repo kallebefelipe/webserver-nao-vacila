@@ -21,8 +21,6 @@ class Alerta(Base):
     def __init__(self, row):
         if 'id_usuario' in row:
             self.id_usuario = row['id_usuario']
-        if 'token' in row:
-            self.token = row['token']
         if 'latitude' in row:
             self.latitude = row['latitude']
         if 'longitude' in row:
