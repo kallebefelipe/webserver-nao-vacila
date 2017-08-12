@@ -133,10 +133,11 @@ SESSION_COOKIE_HTTPONLY = True
 
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-        "FCM_API_KEY": "[your api key]",
+        "FCM_API_KEY": "AAAAgB9WvJ0:APA91bETTfcXJsGgkCc7oQqIuQKL5xzssCIyt8MQxLbi4uvxSbHrBDXLLZq8AJyd-RuZAacITleLIbSPAkDhZPcHoV__Z0ReiQ1IZZNsJhlvecBJNJLBujsOHgVkM7koN3RihhzdjtG9",
         "GCM_API_KEY": "[your api key]",
         "APNS_CERTIFICATE": "/path/to/your/certificate.pem",
         "APNS_TOPIC": "com.example.push_test",
         "WNS_PACKAGE_SECURITY_ID": "[your package security id, e.g: 'ms-app://e-3-4-6234...']",
         "WNS_SECRET_KEY": "[your app secret key, e.g.: 'KDiejnLKDUWodsjmewuSZkk']",
+        'FCM_ERROR_TIMEOUT': 10
 }

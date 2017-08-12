@@ -73,6 +73,7 @@ class LoadToPostgres(PostgresConnection):
         return data
 
     def get_by_user(self, id_usuario):
+
         session = self.create_connection()
 
         result = session.query(Alerta).filter(Alerta.id_usuario==id_usuario).all()

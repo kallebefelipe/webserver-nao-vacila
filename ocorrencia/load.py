@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .models import Ocorrencia
+from usuario.models import Usuario
 from tipo_ocorrencia.models import TipoOcorrencia
 from push_notifications.models import GCMDevice
 from math import sin, cos, sqrt, atan2, radians
@@ -62,11 +63,15 @@ class LoadToPostgres(PostgresConnection):
         session.close()
 
     def enviar_mensagem(self, alerta):
-        fcm_device = \
-            GCMDevice.objects.create(registration_id="token",
-                                     cloud_message_type="FCM",
-                                     user=alerta['token'])
-        fcm_device.send_message(self.row)
+        session = self.create_connection()
+        result = session.query(Usuario).filter(Usuario.id_usuario==alerta['token']).all()
+        for each in result:
+            linha = each.__dict__
+            fcm_device = \
+                GCMDevice.objects.create(registration_id=linha['token'],
+                                         cloud_message_type="FCM",
+                                         )
+            fcm_device.send_message(self.row)
 
     def distancia(self, lat1, lon1, lat2, lon2):
         R = 6373.0
@@ -102,7 +107,7 @@ class LoadToPostgres(PostgresConnection):
 
     def add(self):
         try:
-            self.verificar_alertas()
+            self.verificar_alerta()
         except:
             pass
         self.rows_to_models()
