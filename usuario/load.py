@@ -60,34 +60,38 @@ class LoadToPostgres(PostgresConnection):
         session = self.create_connection()
         nao_vacila_id = {}
         if 'id_fb' in self.row:
-            result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
-            for each in result:
-                linha = each.__dict__
-                nao_vacila_id['nao_vacila_id'] = linha['id']
-                return nao_vacila_id
-        elif 'id_google' in self.row:
-            result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
-            if len(result) > 0:
+            if self.row['id_fb'] is not None:
+                result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
                 for each in result:
                     linha = each.__dict__
                     nao_vacila_id['nao_vacila_id'] = linha['id']
                     return nao_vacila_id
+        elif 'id_google' in self.row:
+            if self.row['id_google'] is not None:
+                result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
+                if len(result) > 0:
+                    for each in result:
+                        linha = each.__dict__
+                        nao_vacila_id['nao_vacila_id'] = linha['id']
+                        return nao_vacila_id
         self.rows_to_models()
         self.save_models()
 
         if 'id_fb' in self.row:
-            result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
-            for each in result:
-                linha = each.__dict__
-                nao_vacila_id['nao_vacila_id'] = linha['id']
-                return nao_vacila_id
-        elif 'id_google' in self.row:
-            result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
-            if len(result) > 0:
+            if self.row['id_fb'] is not None:
+                result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
                 for each in result:
                     linha = each.__dict__
                     nao_vacila_id['nao_vacila_id'] = linha['id']
                     return nao_vacila_id
+        elif 'id_google' in self.row:
+            if self.row['id_google'] is not None:
+                result = session.query(Usuario).filter_by(id_fb=self.row['id_fb'])
+                if len(result) > 0:
+                    for each in result:
+                        linha = each.__dict__
+                        nao_vacila_id['nao_vacila_id'] = linha['id']
+                        return nao_vacila_id
 
     def get_all(self):
         session = self.create_connection()
