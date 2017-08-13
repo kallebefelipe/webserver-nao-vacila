@@ -13,6 +13,7 @@ class Alerta(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     titulo = Column(String, nullable=True)
+    endereco = Column(String, nullable=True)
     id_usuario = Column(String, nullable=True)
     token = Column(String, nullable=True)
     latitude = Column(Float, nullable=True)
@@ -22,6 +23,8 @@ class Alerta(Base):
     def __init__(self, row):
         if 'titulo' in row:
             self.titulo = row['titulo']
+        if 'endereco' in row:
+            self.endereco = row['endereco']
         if 'id_usuario' in row:
             self.id_usuario = row['id_usuario']
         if 'latitude' in row:

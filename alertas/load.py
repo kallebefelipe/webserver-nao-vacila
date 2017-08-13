@@ -76,7 +76,7 @@ class LoadToPostgres(PostgresConnection):
 
         session = self.create_connection()
 
-        result = session.query(Alerta).filter(Alerta.id_usuario==id_usuario).all()
+        result = session.query(Alerta).filter(Alerta.id==int(id_usuario)).all()
 
         data = []
         for each in result:
