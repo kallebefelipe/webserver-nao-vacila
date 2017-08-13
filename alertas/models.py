@@ -12,6 +12,7 @@ class Alerta(Base):
     __tablename__ = 'alerta'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    titulo = Column(String, nullable=True)
     id_usuario = Column(String, nullable=True)
     token = Column(String, nullable=True)
     latitude = Column(Float, nullable=True)
@@ -19,6 +20,8 @@ class Alerta(Base):
     raio = Column(Integer, nullable=True)
 
     def __init__(self, row):
+        if 'titulo' in row:
+            self.titulo = row['titulo']
         if 'id_usuario' in row:
             self.id_usuario = row['id_usuario']
         if 'latitude' in row:

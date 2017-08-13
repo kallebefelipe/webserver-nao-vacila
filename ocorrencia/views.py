@@ -13,7 +13,6 @@ def ocorrencia(request):
     """
     if request.method == 'GET':
         try:
-            import ipdb; ipdb.set_trace()
             id_usuario = request.GET['id_usuario']
             load = LoadToPostgres()
             data = load.get_by_user(id_usuario)

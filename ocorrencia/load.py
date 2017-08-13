@@ -138,7 +138,7 @@ class LoadToPostgres(PostgresConnection):
     def get_by_user(self, id_usuario):
         session = self.create_connection()
 
-        result = session.query(Ocorrencia).filter(Ocorrencia.id_usuario==id_usuario).all()
+        result = session.query(Ocorrencia).filter(Ocorrencia.id_usuario==int(id_usuario)).all()
 
         data = []
         for each in result:
