@@ -10,7 +10,7 @@ from alertas.models import Alerta
 from .models import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
+from datetime import date
 
 class PostgresConnection(object):
 
@@ -122,7 +122,8 @@ class LoadToPostgres(PostgresConnection):
 
         for each in result:
             linha = each.__dict__
-            if '2017' in str(linha['data']):
+            dt = date.today()
+            if (str(dt.year) in str(linha['data'])) or (str(dt.year - 1) in str(linha['data'])):
                 ocorrencias.append(each)
         data = []
         for each in ocorrencias:
